@@ -1,0 +1,33 @@
+data:
+  instances:
+    CloudFront-1:
+      type: CloudFront distribution
+    EC2-1:
+      type: IoT Gateway
+    EC2-2:
+      type: ECS instance
+    EC2-3:
+      type: ECS instance
+    RDS-1:
+      type: RDS instance
+    S3-1:
+      type: S3 bucket
+    S3-2:
+      type: S3 bucket (web application)
+    SQS-1:
+      type: SQS queue
+  connections:
+    - from_instance: EC2-1
+      to_instance: SQS-1
+    - from_instance: SQS-1
+      to_instance: EC2-2
+    - from_instance: EC2-2
+      to_instance: S3-1
+    - from_instance: EC2-1
+      to_instance: RDS-1
+    - from_instance: EC2-2
+      to_instance: RDS-1
+    - from_instance: S3-1
+      to_instance: CloudFront-1
+    - from_instance: CloudFront-1
+      to_instance: S3-2
